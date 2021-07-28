@@ -6,6 +6,8 @@
 # can be no incoming edge to u and no outgoing edge
 # from v, if this situation had occurred then S
 # would not have been the longest path
+# if count of visited nodes is not equal to total node, then graph has a cycle
+
 # => indegree(u) = 0 and outdegree(v) = 0
 import collections
 
@@ -27,6 +29,7 @@ def topologicalSort(n,adj):
     while q:
         u=q.popleft()
         ans.append(u)
+
         for i in adj[u]:
             in_degree[i]-=1
             if in_degree[i]==0:
