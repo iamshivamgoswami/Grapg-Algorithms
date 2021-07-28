@@ -35,6 +35,7 @@ class Solution:
 
         uf = unionFind(n)
         count = n
+
         for u, v in connections:
             count -= uf.union(u, v)
 

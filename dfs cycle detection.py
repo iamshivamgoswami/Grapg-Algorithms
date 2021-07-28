@@ -19,7 +19,7 @@ class Solution:
                 for nei in adj[src]:
                     ret=dfs(nei,dst)
                     if ret:
-                        break
+                        breakin
 
 
                 return ret
