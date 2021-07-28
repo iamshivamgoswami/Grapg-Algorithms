@@ -37,7 +37,8 @@ class Solution:
         uf = unionFind(m * n)
         for i, j in positions:
             if (i, j) in visitedPos:
-                numIsland_list.append(numIsland_list[-1])
+                numIsland_list.append(numIsland_list[-1])#Duplicate addLand
+                # positions shouldn't affect existing number of islands
             else:
                 visitedPos.add((i, j))
                 numIslands += 1
