@@ -2,20 +2,35 @@
 # one edge at a time, and running DFS to see if a
 # path already exists between the two nodes. If it does,
 # the edge in consideration is redundant.
+import collections
+
+
 class Solution:
     def findRedundantConnection(self, edges: List[List[int]]) -> List[int]:
-        graph=collections.defaultdict(set)
-        def dfs(source,target):
-            if source not in seen:
-                seen.add(source)
-                if source==target:
+        adj=collections.defaultdict(list)
+        def dfs(src ,dst):
+            if src in seen:
+                return False
+            if src not in seen:
+                seen.add(src)
+                if src==dst:
                     return True
-                return any (dfs(nei,target)for nei in graph[source])
-        for u,v in edges:
+                ret=False
+                for nei in adj[src]:
+                    ret=dfs(nei,dst)
+                    if ret:
+                        break
 
-            graph[u].add(v)
-            graph[v].add(u)
+
+                return ret
+
+
         for u,v in edges:
             seen=set()
-            if u in graph and v in graph and dfs(u,v):
-                return u,v
+            if u in adj and v in adj and dfs(u,v):
+                return [u,v]
+            adj[u].append(v)
+            adj[v].append(u)
+
+
+
