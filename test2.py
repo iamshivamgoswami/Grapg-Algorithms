@@ -2,25 +2,35 @@ import collections
 
 
 class Solution:
-    def findRedundantConnection(self, edges: List[List[int]]) -> List[int]:
-        def dfs(sec,target):
-            seen.add((src,target))
-            if src in seen:
-                return False
-            see.add(src)
-            if src==target:
-                return True
-            ret=False
-            for nei in adj[src]:
-                ret=dfs(nei,target)
-                if ret:
-                    break
+    def removeStones(self, mat: List[List[int]]) -> int:
+        def dfs(i,j):
+            points.remove((i,j))
+            for y in row[i]:
+                if (i,y) in points:
+                    dfs(i,y)
+            for x in cols[j]:
+                if (x,j) in points:
+                    dfs(x,j)
 
-            return ret
-        adj=collections.defaultdict(list)
-        for i,j in edges:
-            seen=set()
-            if i in adj and j in adj and dfs(i,j):
-                return i,j
-            adj[i].append(j)
-            adj[j].append(i)
+
+        points={(i,j) for i,j in mat}
+        island=0
+        row=collections.defaultdict(list)
+        cols=collections.defaultdict(list)
+        for i,j in mat:
+            row[i].append(j)
+            cols[j].append(i)
+
+
+        for i,j in mat:
+            if (i,j) in points:
+                dfs(i,j)
+                island+=1
+        return len(mat)-island
+
+
+
+
+
+
+
