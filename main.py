@@ -1,20 +1,22 @@
+import collections
+
+
 class Solution:
-    def maxAreaOfIsland(self, grid: List[List[int]]) -> int:
-        self.maxx=0
+    def updateMatrix(self, mat: List[List[int]]) -> List[List[int]]:
         visited=set()
-        def dfs(i,j,count=0):
-            if (i,j) in visited:
-                return
-            count+=1
-            self.maxx=max(self.maxx,count)
-            visited.add((i,j))
-            for x,y in [(i+1,j),(i-1,j),(i,j+1),(i,j-1)]:
-                if 0<=x<len(grid) and 0<=y<len(grid[0]) and grid[x][y]==1:
-                    dfs(x,y,count)
-        for i in range(len(grid)):
-            for j in range(len(grid[0])):
-                if grid[i][j]==1 and (i,j) not in visited:
-                    dfs(i,j)
+        q=collections.deque()
+        for i in range(len(mat)):
+            for j in range(len(mat[0])):
+                if mat[i][j]==0:
+                    visited.add((i,j))
+                    q.append((i,j))
 
-        return self.maxx
+        while q:
+            x,y=q.popleft()
+            for i,j  in [(x+1,y),(x-1,y),(x,y+1),(x,y-1)]:
+                if 0<=i<len(mat ) and 0<=j<len(mat[0]) and (i,j) not in visited:
+                    mat[i][j]=mat[x][y]+1
+                    visited.add((i,j))
+                    q.append((i,j))
 
+        return mat

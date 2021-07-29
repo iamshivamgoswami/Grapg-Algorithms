@@ -1,21 +1,20 @@
-class Solution:
-    def floodFill(self, image: List[List[int]], sr: int, sc: int, c: int) -> List[List[int]]:
+visited = set()
+from collections import deque
 
-        def func(a, r, c, fill, prev):
-            rows = len(a)
-            cols = len(a[0])
-            if r < 0 or r >= rows or c < 0 or c >= cols:
-                return
-            if a[r][c] != prev:
-                return
-            a[r][c] = fill
-            func(a, r - 1, c, fill, prev)
-            func(a, r + 1, c, fill, prev)
-            func(a, r, c - 1, fill, prev)
-            func(a, r, c + 1, fill, prev)
+q = deque()
+for i in range(len(matrix)):
+    for j in range(len(matrix[0])):
+        if matrix[i][j] == 0:
+            visited.add((i, j))
+            q.append((i, j))
 
-        if c != image[sr][sc]:
-            func(image, sr, sc, c, image[sr][sc])
-        return image
-
-
+while q:
+    x, y = q.popleft()
+    for dirr in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
+        newX, newY = x + dirr[0], y + dirr[1]
+        if newX >= 0 and newX <= len(matrix) - 1 and newY >= 0 and newY <= len(matrix[0]) - 1 and (
+        newX, newY) not in visited:
+            matrix[newX][newY] = matrix[x][y] + 1
+            visited.add((newX, newY))
+            q.append((newX, newY))
+return matrix
