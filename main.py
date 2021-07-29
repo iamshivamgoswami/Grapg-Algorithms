@@ -1,21 +1,20 @@
-def equationsPossible(self, equations: List[str]) -> bool:
-    parent = {}
+class Solution:
+    def maxAreaOfIsland(self, grid: List[List[int]]) -> int:
+        self.maxx=0
+        visited=set()
+        def dfs(i,j,count=0):
+            if (i,j) in visited:
+                return
+            count+=1
+            self.maxx=max(self.maxx,count)
+            visited.add((i,j))
+            for x,y in [(i+1,j),(i-1,j),(i,j+1),(i,j-1)]:
+                if 0<=x<len(grid) and 0<=y<len(grid[0]) and grid[x][y]==1:
+                    dfs(x,y,count)
+        for i in range(len(grid)):
+            for j in range(len(grid[0])):
+                if grid[i][j]==1 and (i,j) not in visited:
+                    dfs(i,j)
 
-    def find(x):
-        if x not in parent:
-            return x
-        else:
-            return find(parent[x])
+        return self.maxx
 
-    for i in equations:
-        if i[1] == "=":
-            a = i[0]
-            b = i[-1]
-            x = find(a)
-            y = find(b)
-            if x != y:
-                parent[y] = x
-    for i in equations:
-        if i[1] == "!" and find(i[0]) == find(i[-1]):
-            return False
-    return True
